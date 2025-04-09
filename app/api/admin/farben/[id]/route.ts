@@ -20,6 +20,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     });
     return NextResponse.json(farbe);
   } catch (error) {
+    console.error("Es liegt ein Fehler vor:", error);
     return NextResponse.json({ error: "Fehler beim Aktualisieren der Farbe" }, { status: 500 });
   }
 }
@@ -36,6 +37,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     await prisma.farbe.delete({ where: { id } });
     return NextResponse.json({ message: "Farbe gelöscht" });
   } catch (error) {
+    console.error("Es liegt ein Fehler vor:", error);
     return NextResponse.json({ error: "Fehler beim Löschen der Farbe" }, { status: 500 });
   }
 }
