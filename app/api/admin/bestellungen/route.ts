@@ -36,6 +36,7 @@ export async function GET() {
 
     return NextResponse.json({ bestellungen: formattedBestellungen });
   } catch (error) {
+    console.error("Es liegt ein Fehler vor:", error);
     return NextResponse.json(
       { error: "Fehler beim Laden der Bestellungen" },
       { status: 500 }

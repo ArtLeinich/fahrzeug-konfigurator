@@ -15,6 +15,7 @@ interface Fahrzeug {
   beschreibung: string;
   verfuegbar: boolean;
   kategorieId: string;
+  baujahr: number;
 }
 
 interface Motor {

@@ -17,11 +17,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, Play, AlertTriangle, Trash2, CreditCard } from "lucide-react";
 
+interface Option {
+  name: string;
+  kategorie: string;
+  value: string;
+  preis: number;
+}
+
+interface Konfiguration {
+  id: string;
+  fahrzeug?: string;
+  fahrzeugId: string;
+  gesamtpreis: number;
+  createdAt: string;
+  motor?: string;
+  farbe?: string;
+  felgen?: string;
+  isBestellt?: boolean;
+  options?: Option[];
+}
+
 export default function KonfigurationsList() {
   const { fahrzeuge, showToast } = useAppContext();
   const { data: session } = useSession();
   const [searchTerm, setSearchTerm] = useState("");
-  const [konfigurationen, setKonfigurationen] = useState<any[]>([]);
+  const [konfigurationen, setKonfigurationen] = useState<Konfiguration[]>([]); // Заменяем any[] на Konfiguration[]
   const [isLoading, setIsLoading] = useState(true);
   const [expandedKonfigId, setExpandedKonfigId] = useState<string | null>(null);
 
@@ -44,6 +64,7 @@ export default function KonfigurationsList() {
         console.log("Erhaltene Konfigurationen:", data.konfigurationen);
         setKonfigurationen(data.konfigurationen || []);
       } catch (error) {
+        console.error("Es liegt ein Fehler vor:", error);
         showToast("Fehler beim Laden der Konfigurationen", "error");
       } finally {
         setIsLoading(false);
@@ -73,6 +94,7 @@ export default function KonfigurationsList() {
       showToast("Konfiguration wurde gelöscht", "success");
       if (expandedKonfigId === id) setExpandedKonfigId(null);
     } catch (error) {
+      console.error("Es liegt ein Fehler vor:", error);
       showToast("Fehler beim Löschen der Konfiguration", "error");
     }
   };
@@ -96,6 +118,7 @@ export default function KonfigurationsList() {
         )
       );
     } catch (error) {
+      console.error("Es liegt ein Fehler vor:", error);
       showToast("Fehler beim Erstellen der Bestellung", "error");
     }
   };
@@ -179,11 +202,9 @@ export default function KonfigurationsList() {
                   )}
                   {isExpanded && (
                     <div className="mt-4 space-y-2 text-sm">
-                      {/* Angaben zur Konfiguration */}
                       <p><strong>Motor:</strong> {konfig.motor || "Unbekannter Motor"}</p>
                       <p><strong>Farbe:</strong> {konfig.farbe || "Unbekannte Farbe"}</p>
                       <p><strong>Felgen:</strong> {konfig.felgen || "Unbekannte Felgen"}</p>
-                      {/* Fahrzeugdaten */}
                       {fahrzeug && (
                         <>
                           <p><strong>Baujahr:</strong> {fahrzeug.baujahr}</p>
@@ -191,12 +212,11 @@ export default function KonfigurationsList() {
                           <p><strong>Beschreibung:</strong> {fahrzeug.beschreibung || "Keine Beschreibung"}</p>
                         </>
                       )}
-                      {/* Zusätzliche Optionen (Ausstattung) */}
                       {konfig.options && konfig.options.length > 0 && (
                         <div className="mt-2">
                           <strong>Zusätzliche Optionen:</strong>
                           <ul className="list-disc list-inside mt-1">
-                            {konfig.options.map((option: any, index: number) => (
+                            {konfig.options.map((option: Option, index: number) => ( // Заменяем any на Option
                               <li key={index} className="text-gray-700">
                                 <span className="font-medium">{option.name}</span> ({option.kategorie}): {option.value}
                                 <span className="text-green-600"> (+{option.preis.toLocaleString("de-DE")} €)</span>
@@ -210,7 +230,6 @@ export default function KonfigurationsList() {
                 </CardContent>
                 <CardFooter className="flex flex-col gap-3">
                   <div className="flex flex-col sm:flex-row justify-between w-full">
-                    {/* Mobile Version: „Löschen“ und „Details“ in einer eingerückten Zeile */}
                     <div className="flex w-full sm:w-auto gap-2">
                       <Button
                         variant="outline"
@@ -231,7 +250,6 @@ export default function KonfigurationsList() {
                         {isExpanded ? "Weniger" : "Details"}
                       </Button>
                     </div>
-                    {/* Mobile Version: „Konfigurieren“ unten rechts eingerückt */}
                     <div className="w-full sm:w-auto mt-2 sm:mt-0">
                       <Link href={`/konfigurator/${konfig.fahrzeugId}`}>
                         <Button
