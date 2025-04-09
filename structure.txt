@@ -1,0 +1,267 @@
+.env
+.gitignore
+README.md
+all_files.txt
+collect.py
+components.json
+eslint.config.mjs
+next-env.d.ts
+next.config.ts
+package-lock.json
+package.json
+postcss.config.mjs
+structure.txt
+tailwind.config.ts
+tsconfig.json
+│       
+├───app
+│   ClientIndex.tsx
+│   ClientWrapper.tsx
+│   favicon.ico
+│   globals.css
+│   layout.tsx
+│   not-found.tsx
+│   page.tsx
+│       
+│   ├───admin
+│       
+│   │   ├───bestellverwaltung
+│   │   │   page.tsx
+│       
+│   │   ├───kunden
+│   │   │   page.tsx
+│       
+│   ├───api
+│       
+│   │   ├───admin
+│       
+│   │   │   ├───bestellungen
+│   │   │   │   route.ts
+│       
+│   │   │   │   ├───delete
+│   │   │   │   │   route.ts
+│       
+│   │   │   ├───fahrzeuge
+│       
+│   │   │   │   ├───create
+│   │   │   │   │   route.ts
+│       
+│   │   │   │   ├───delete
+│   │   │   │   │   route.ts
+│       
+│   │   │   │   ├───update
+│   │   │   │   │   route.ts
+│       
+│   │   │   │   ├───upload
+│       
+│   │   │   │   │   ├───[id]
+│   │   │   │   │   │   route.ts
+│       
+│   │   │   ├───fahrzeugkategorien
+│   │   │   │   route.ts
+│       
+│   │   │   ├───kunden
+│   │   │   │   route.ts
+│       
+│   │   │   │   ├───[id]
+│   │   │   │   │   route.ts
+│       
+│   │   │   ├───motoren
+│       
+│   │   │   │   ├───update
+│   │   │   │   │   route.ts
+│       
+│   │   ├───auth
+│       
+│   │   │   ├───[...nextauth]
+│   │   │   │   route.ts
+│       
+│   │   ├───bestellungen
+│   │   │   route.ts
+│       
+│   │   │   ├───create
+│   │   │   │   route.ts
+│       
+│   │   │   ├───update
+│       
+│   │   │   │   ├───[id]
+│   │   │   │   │   route.ts
+│       
+│   │   ├───konfigurator
+│       
+│   │   │   ├───data
+│   │   │   │   route.ts
+│       
+│   │   │   ├───delete
+│       
+│   │   │   │   ├───[id]
+│   │   │   │   │   route.ts
+│       
+│   │   │   ├───save
+│   │   │   │   route.ts
+│       
+│   │   ├───profil
+│   │   │   route.ts
+│       
+│   │   │   ├───address
+│   │   │   │   route.ts
+│       
+│   │   │   ├───password
+│   │   │   │   route.ts
+│       
+│   │   ├───register
+│   │   │   route.ts
+│       
+│   │   ├───verwaltung
+│   │   │   route.ts
+│       
+│   ├───katalog
+│   │   page.tsx
+│       
+│   │   ├───[id]
+│   │   │   page.tsx
+│       
+│   ├───konfigurator
+│   │   page.tsx
+│       
+│   │   ├───[id]
+│   │   │   page.tsx
+│       
+│   ├───login
+│   │   page.tsx
+│       
+│   ├───profil
+│   │   page.tsx
+│       
+│   ├───registrieren
+│   │   page.tsx
+│       
+│   ├───verwaltung
+│   │   page.tsx
+│       
+├───components
+│   FahrzeugCard.tsx
+│   KonfigurationsUebersicht.tsx
+│   Layout.tsx
+│   Navigation.tsx
+│   login-form.tsx
+│   profile-form.tsx
+│   register-form.tsx
+│       
+│   ├───admin
+│   │   Bestellverwaltung.tsx
+│   │   Kundenverwaltung.tsx
+│       
+│   ├───konfigurator
+│   │   AusstattungTab.tsx
+│   │   FahrzeugTab.tsx
+│   │   FarbeTab.tsx
+│   │   FelgenTab.tsx
+│   │   KonfiguratorTabs.tsx
+│   │   MotorTab.tsx
+│   │   NavigationButtons.tsx
+│   │   ZusammenfassungTab.tsx
+│       
+│   ├───ui
+│   │   accordion.tsx
+│   │   alert-dialog.tsx
+│   │   alert.tsx
+│   │   aspect-ratio.tsx
+│   │   avatar.tsx
+│   │   badge.tsx
+│   │   breadcrumb.tsx
+│   │   button.tsx
+│   │   calendar.tsx
+│   │   card.tsx
+│   │   carousel.tsx
+│   │   chart.tsx
+│   │   checkbox.tsx
+│   │   collapsible.tsx
+│   │   command.tsx
+│   │   context-menu.tsx
+│   │   dialog.tsx
+│   │   drawer.tsx
+│   │   dropdown-menu.tsx
+│   │   form.tsx
+│   │   hover-card.tsx
+│   │   input-otp.tsx
+│   │   input.tsx
+│   │   label.tsx
+│   │   menubar.tsx
+│   │   navigation-menu.tsx
+│   │   pagination.tsx
+│   │   popover.tsx
+│   │   progress.tsx
+│   │   radio-group.tsx
+│   │   resizable.tsx
+│   │   scroll-area.tsx
+│   │   select.tsx
+│   │   separator.tsx
+│   │   sheet.tsx
+│   │   sidebar.tsx
+│   │   skeleton.tsx
+│   │   slider.tsx
+│   │   sonner.tsx
+│   │   switch.tsx
+│   │   table.tsx
+│   │   tabs.tsx
+│   │   textarea.tsx
+│   │   toast.tsx
+│   │   toaster.tsx
+│   │   toggle-group.tsx
+│   │   toggle.tsx
+│   │   tooltip.tsx
+│   │   use-toast.ts
+│       
+│   ├───verwaltung
+│   │   BestellungsList.tsx
+│   │   KonfigurationsList.tsx
+│       
+├───context
+│   AppContext.tsx
+│   ToastContext.tsx
+│   utils.ts
+│       
+├───hooks
+│   use-mobile.tsx
+│   use-toast.ts
+│       
+├───lib
+│   auth.ts
+│   prisma.ts
+│   utils.ts
+│       
+├───prisma
+│   schema.prisma
+│       
+│   ├───migrations
+│   │   migration_lock.toml
+│       
+│   │   ├───20250309212839_make_address_fields_required
+│   │   │   migration.sql
+│       
+├───public
+│   file.svg
+│   globe.svg
+│   next.svg
+│   vercel.svg
+│   window.svg
+│       
+│   ├───uploads
+│   │   1741641620498-mercedes-benz-c-class-w206-06-2022.jpg
+│   │   1741645584805-898.jpg
+│   │   1741648120538-k7m-2021-new.png
+│   │   1741680141457-k7m-2021-new.png
+│   │   1741680474282-mercedes-benz-c-class-w206-06-2022.jpg
+│   │   1741701455474-k7m-2021-new.png
+│   │   1741702684056-Leonardo_Phoenix_10_A_highly_detailed_and_photorealistic_image_3.jpg
+│   │   1741702694533-Leonardo_Phoenix_10_A_highly_realistic_and_detailed_image_of_a_0.jpg
+│   │   1741702715336-Leonardo_Phoenix_10_A_highly_realistic_and_detailed_image_of_a_2 (1).jpg
+│   │   1741702731875-Leonardo_Phoenix_10_A_highly_realistic_and_detailed_image_of_a_2.jpg
+│   │   1741702747903-Leonardo_Phoenix_10_A_highly_realistic_and_detailed_image_of_a_0 (1).jpg
+│   │   1741703193955-Leonardo_Phoenix_10_A_highly_realistic_and_detailed_image_of_a_0 (2).jpg
+│   │   1741703230004-k7m-2021-new.png
+│       
+├───types
+│   models.ts
+│   next-auth.d.ts

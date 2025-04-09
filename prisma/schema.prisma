@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String          @id @default(uuid())
+  email           String          @unique
+  password        String // hashed
+  role            String // "ADMIN", "USER"
+  firstName       String 
+  lastName        String 
+  street          String 
+  houseNumber     String 
+  postalCode      String 
+  city            String 
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now()) @updatedAt
+  regionId        String?
+  accounts        Account[]
+  sessions        Session[]
+  region          Region?         @relation(fields: [regionId], references: [id])
+  konfigurationen Konfiguration[]
+  bestellungen    Bestellung[]
+
+  @@index([email]) // Index für schnelle E-Mail-Suche
+}
+
+model Region {
+  id           String @id @default(uuid())
+  name         String
+  beschreibung String
+  kunden       User[]
+}
+
+model FahrzeugKategorie {
+  id           String     @id @default(uuid())
+  name         String
+  beschreibung String
+  fahrzeuge    Fahrzeug[]
+}
+
+model Fahrzeug {
+  id              String            @id @default(uuid())
+  marke           String
+  modell          String
+  baujahr         Int
+  basisPreis      Float
+  bildUrl         String
+  beschreibung    String
+  verfuegbar      Boolean
+  kategorieId     String
+  kategorie       FahrzeugKategorie @relation(fields: [kategorieId], references: [id])
+  konfigurationen Konfiguration[] 
+}
+
+model Motor {
+  id              String          @id @default(uuid())
+  name            String
+  ps              Int
+  hubraum         Int
+  kraftstoff      String
+  verbrauch       Float
+  co2Ausstoss     Float
+  preis           Float
+  konfigurationen Konfiguration[] 
+}
+
+model Farbe {
+  id              String          @id @default(uuid())
+  name            String
+  farbcode        String
+  preis           Float
+  typ             String
+  konfigurationen Konfiguration[] 
+}
+
+model Felgen {
+  id              String          @id @default(uuid())
+  name            String
+  groesse         Int
+  design          String
+  preis           Float
+  bildUrl         String
+  konfigurationen Konfiguration[] 
+}
+
+model FahrzeugAusstattung {
+  id              String                     @id @default(uuid())
+  name            String
+  beschreibung    String
+  preis           Float
+  kategorie       String
+  konfigurationen KonfigurationAusstattung[] 
+}
+
+model Bestellung {
+  id              String        @id @default(uuid())
+  userId          String
+  konfigurationId String        @unique
+  status          String        @default("Neu")
+  bestellDatum    DateTime      @default(now())
+  lieferDatum     DateTime?
+  user            User          @relation(fields: [userId], references: [id])
+  konfiguration   Konfiguration @relation(fields: [konfigurationId], references: [id])
+}
+
+model Konfiguration {
+  id            String                     @id @default(uuid())
+  userId        String
+  fahrzeugId    String
+  motorId       String?
+  farbeId       String?
+  felgenId      String?
+  gesamtpreis   Float
+  isBestellt    Boolean                    @default(false)
+  createdAt     DateTime                   @default(now())
+  user          User                       @relation(fields: [userId], references: [id])
+  fahrzeug      Fahrzeug                   @relation(fields: [fahrzeugId], references: [id])
+  motor         Motor?                     @relation(fields: [motorId], references: [id])
+  farbe         Farbe?                     @relation(fields: [farbeId], references: [id])
+  felgen        Felgen?                    @relation(fields: [felgenId], references: [id])
+  ausstattungen KonfigurationAusstattung[]
+  bestellung    Bestellung?
+}
+
+// Verknüpfungstabelle für Many-to-many zwischen Konfiguration und FahrzeugAusstattung
+model KonfigurationAusstattung {
+  konfigurationId String
+  ausstattungId   String
+  konfiguration   Konfiguration       @relation(fields: [konfigurationId], references: [id])
+  ausstattung     FahrzeugAusstattung @relation(fields: [ausstattungId], references: [id])
+
+  @@id([konfigurationId, ausstattungId])
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
