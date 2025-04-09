@@ -18,6 +18,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(farbe);
   } catch (error) {
+    console.error("Es liegt ein Fehler vor:", error);
     return NextResponse.json({ error: "Fehler beim Hinzufügen der Farbe" }, { status: 500 });
   }
 }

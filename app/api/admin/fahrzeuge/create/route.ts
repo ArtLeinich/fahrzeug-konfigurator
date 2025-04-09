@@ -28,11 +28,15 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(newFahrzeug);
-  } catch (error) {
+  }  catch (error: unknown) {
     console.error("Fehler beim Erstellen des Fahrzeugs:", error);
+    let errorMessage = "Fehler beim Erstellen des Fahrzeugs";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
     return NextResponse.json(
-      { error: error.message || "Fehler beim Erstellen des Fahrzeugs" },
-      { status: 500 }
+      { error: errorMessage },
+      { status: 500 },
     );
   }
 }

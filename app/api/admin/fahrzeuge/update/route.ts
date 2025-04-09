@@ -20,7 +20,17 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Fahrzeug-ID fehlt" }, { status: 400 });
     }
 
-    const updateData: any = {};
+    interface UpdateData {
+      marke?: string;
+      modell?: string;
+      basisPreis?: number;
+      bildUrl?: string;
+      beschreibung?: string;
+      baujahr?: number;
+      verfuegbar?: boolean;
+      kategorieId?: string;
+    }
+    const updateData: UpdateData = {};
     const marke = formData.get("marke") as string;
     const modell = formData.get("modell") as string;
     const basisPreis = formData.get("basisPreis") as string;
@@ -92,11 +102,15 @@ export async function PUT(req: Request) {
     });
 
     return NextResponse.json(updatedFahrzeug);
-  } catch (error) {
-    console.error("Fehler beim Aktualisieren:", error);
+  } catch (error: unknown) {
+    console.error("Fehler beim Aktualisieren:", error); // Log the full error for debugging
+    let errorMessage = "Fehler beim Aktualisieren des Fahrzeugs";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
     return NextResponse.json(
-      { error: error.message || "Fehler beim Aktualisieren des Fahrzeugs" },
-      { status: 500 }
+      { error: errorMessage },
+      { status: 500 },
     );
   }
 }
